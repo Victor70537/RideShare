@@ -24,12 +24,13 @@
             android:text="Email: " />
 
         <EditText
-            android:id="@+id/userEmail"
+            android:id="@+id/userPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPassword" />
+            android:inputType="textEmailAddress" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -53,7 +54,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textEmailAddress" />
+            android:inputType="textPassword" />
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:text="Button" />
 
 </LinearLayout>
