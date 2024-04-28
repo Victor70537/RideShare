@@ -45,11 +45,11 @@ public class NewRideActivity extends AppCompatActivity {
             String phone = phoneView.getText().toString();
             String destination = destinationView.getText().toString();
             String comments = commentsView.getText().toString();
-            final Rides ride = new Rides( username, username, phone, destination, comments );
+            final Ride ride = new Ride( username, username, phone, destination, comments );
 
-            // Add a new element (JobLead) to the list of job leads in Firebase.
+            // Add a new element (Ride) to the list of rides in Firebase.
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("jobleads");
+            DatabaseReference myRef = database.getReference("rides");
 
             // First, a call to push() appends a new node to the existing list (one is created
             // if this is done for the first time).  Then, we set the value in the newly created
@@ -61,7 +61,7 @@ public class NewRideActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             // Show a quick confirmation
-                            Toast.makeText(getApplicationContext(), "Ridecreated for " + ride.getRider(),
+                            Toast.makeText(getApplicationContext(), "Ride created for " + ride.getRider(),
                                     Toast.LENGTH_SHORT).show();
 
                             // Clear the EditTexts for next use.
@@ -74,7 +74,7 @@ public class NewRideActivity extends AppCompatActivity {
                     .addOnFailureListener( new OnFailureListener() {
                         @Override
                         public void onFailure( @NonNull Exception e ) {
-                            Toast.makeText( getApplicationContext(), "Failed to create a Job lead for " + ride.getRider(),
+                            Toast.makeText( getApplicationContext(), "Failed to create a Ride for " + ride.getRider(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     });

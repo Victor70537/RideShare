@@ -5,7 +5,7 @@ package edu.uga.cs.rideshare;
  * This class represents a single ride, including the rider,
  * driver, destination, and some comments.
  */
-public class Rides {
+public class Ride {
     private String key;
     private String rider;
     private String driver;
@@ -13,7 +13,7 @@ public class Rides {
     private String destination;
     private String comments;
 
-    public Rides()
+    public Ride()
     {
         this.key = null;
         this.rider = null;
@@ -23,7 +23,7 @@ public class Rides {
         this.comments = null;
     }
 
-    public Rides( String rider, String driver, String phone, String destination, String comments ) {
+    public Ride(String rider, String driver, String phone, String destination, String comments ) {
         this.key = null;
         this.rider = rider;
         this.driver = driver;
