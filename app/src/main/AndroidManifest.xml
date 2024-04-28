@@ -15,6 +15,15 @@
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".RidesListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NewRideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RideShareMain"
+            android:exported="false" />
+        <activity
             android:name=".LogInPage"
             android:exported="false" />
         <activity
@@ -29,11 +38,9 @@
         <activity
             android:name=".InfoActivity"
             android:exported="false" />
-
         <activity
             android:name=".AppActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>
