@@ -112,6 +112,15 @@ public class RideShareMain extends AppCompatActivity {
         RequestButton.setOnClickListener( new RequestButtonClickListener() );
         ListButton.setOnClickListener ( new ListButtonClickListener() );
         ProfileButton.setOnClickListener( new ProfileButtonClickListener() );
+        LogoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call logOut() method when the button is clicked
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                v.getContext().startActivity( intent );
+            }
+        });
 
     }
 
