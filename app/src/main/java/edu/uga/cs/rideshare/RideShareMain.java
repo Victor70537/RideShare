@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +23,7 @@ public class RideShareMain extends AppCompatActivity {
     private Button ListButton;
     private Button ProfileButton;
     private Button LogoutButton;
+    private Switch Switch;
 
     private int userStatus;
     private FirebaseUser currentUser;
@@ -37,6 +40,7 @@ public class RideShareMain extends AppCompatActivity {
         ListButton = findViewById( R.id.ListButton );
         ProfileButton = findViewById( R.id.ProfileButton );
         LogoutButton = findViewById( R.id.LogoutButton );
+        Switch = findViewById( R.id.Switch );
 
         // get the extra and set the UI appropriately
         Intent intent = getIntent();
@@ -45,19 +49,55 @@ public class RideShareMain extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         Log.d("RideShareMain", "This is the current user:" + currentUser.getEmail());
 
-        // set the texts:
+//         set the texts:
         if (userStatus == 1) {
             Title.setText("Use the following buttons to request a ride and view your own ride requests");
             Username.setText(currentUser.getEmail());
+            Switch.setText("Rider");
+            Switch.setChecked(false);
+
 
         } else if (userStatus == 2) {
             Title.setText("Use the following buttons to accept a ride and view your own ride offers");
             Username.setText(currentUser.getEmail());
+            Switch.setText("Driver");
+            Switch.setChecked(true);
         }
+
+        Switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // on below line we are checking
+                // if switch is checked or not.
+                if (isChecked) {
+                    Title.setText("Use the following buttons to accept a ride and view your own ride offers");
+                    Username.setText(currentUser.getEmail());
+                    Switch.setText("Driver");
+                    intent.putExtra("user mode", 2);
+                } else {
+                    Title.setText("Use the following buttons to request a ride and view your own ride requests");
+                    Username.setText(currentUser.getEmail());
+                    Switch.setText("Rider");
+                    intent.putExtra("user mode", 1);
+                }
+            }
+        });
+        // set the texts:
+//        if (userStatus == 1) {
+//            Title.setText("Use the following buttons to request a ride and view your own ride requests");
+//            Username.setText(currentUser.getEmail());
+//
+//
+//        } else if (userStatus == 2) {
+//            Title.setText("Use the following buttons to accept a ride and view your own ride offers");
+//            Username.setText(currentUser.getEmail());
+//        }
+
 
 
         RequestButton.setOnClickListener( new RequestButtonClickListener() );
         ListButton.setOnClickListener (new ListButtonClickListener() );
+
 
 
 
