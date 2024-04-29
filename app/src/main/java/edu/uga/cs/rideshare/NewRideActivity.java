@@ -3,6 +3,7 @@ package edu.uga.cs.rideshare;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,8 @@ public class NewRideActivity extends AppCompatActivity {
     private EditText destinationView;
     private EditText commentsView;
 
+    private int userStatus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,9 @@ public class NewRideActivity extends AppCompatActivity {
 
         UploadRideButton.setOnClickListener( new ButtonClickListener()) ;
 
+        Intent intent = getIntent();
+        userStatus = intent.getIntExtra("user status", 1);
+
     }
 
     private class ButtonClickListener implements View.OnClickListener {
@@ -45,7 +51,17 @@ public class NewRideActivity extends AppCompatActivity {
             String phone = phoneView.getText().toString();
             String destination = destinationView.getText().toString();
             String comments = commentsView.getText().toString();
-            final Ride ride = new Ride( username, username, phone, destination, comments );
+            final Ride ride = new Ride();
+
+            if (userStatus == 1) {
+                ride.setRider(username);
+            } else if (userStatus == 2) {
+                ride.setDriver(username);
+            }
+
+            ride.setPhone(phone);
+            ride.setDestination(destination);
+            ride.setComments(comments);
 
             // Add a new element (Ride) to the list of rides in Firebase.
             FirebaseDatabase database = FirebaseDatabase.getInstance();

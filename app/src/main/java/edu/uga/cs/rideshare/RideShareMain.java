@@ -53,6 +53,9 @@ public class RideShareMain extends AppCompatActivity {
         if (userStatus == 1) {
             Title.setText("Use the following buttons to request a ride and view your own ride requests");
             Username.setText(currentUser.getEmail());
+
+            RequestButton.setText("Post a new ride request");
+
             Switch.setText("Rider");
             Switch.setChecked(false);
 
@@ -60,6 +63,9 @@ public class RideShareMain extends AppCompatActivity {
         } else if (userStatus == 2) {
             Title.setText("Use the following buttons to accept a ride and view your own ride offers");
             Username.setText(currentUser.getEmail());
+
+            RequestButton.setText("Post a new ride offer");
+
             Switch.setText("Driver");
             Switch.setChecked(true);
         }
@@ -72,16 +78,24 @@ public class RideShareMain extends AppCompatActivity {
                 if (isChecked) {
                     Title.setText("Use the following buttons to accept a ride and view your own ride offers");
                     Username.setText(currentUser.getEmail());
+
+                    RequestButton.setText("Post a new ride offer");
+
                     Switch.setText("Driver");
                     intent.putExtra("user mode", 2);
                 } else {
                     Title.setText("Use the following buttons to request a ride and view your own ride requests");
                     Username.setText(currentUser.getEmail());
+
+                    RequestButton.setText("Post a new ride request");
+
                     Switch.setText("Rider");
                     intent.putExtra("user mode", 1);
                 }
             }
         });
+
+
         // set the texts:
 //        if (userStatus == 1) {
 //            Title.setText("Use the following buttons to request a ride and view your own ride requests");
@@ -96,11 +110,8 @@ public class RideShareMain extends AppCompatActivity {
 
 
         RequestButton.setOnClickListener( new RequestButtonClickListener() );
-        ListButton.setOnClickListener (new ListButtonClickListener() );
-
-
-
-
+        ListButton.setOnClickListener ( new ListButtonClickListener() );
+        ProfileButton.setOnClickListener( new ProfileButtonClickListener() );
 
     }
 
@@ -108,6 +119,7 @@ public class RideShareMain extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(view.getContext(), NewRideActivity.class);
+            intent.putExtra("user status", userStatus);
             view.getContext().startActivity( intent );
         }
     }
@@ -116,6 +128,14 @@ public class RideShareMain extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(view.getContext(), RidesListActivity.class);
+            view.getContext().startActivity( intent );
+        }
+    }
+
+    private class ProfileButtonClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(view.getContext(), ProfileActivity.class);
             view.getContext().startActivity( intent );
         }
     }
