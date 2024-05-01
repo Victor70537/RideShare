@@ -73,9 +73,20 @@ public class RideRecyclerAdapter extends RecyclerView.Adapter<RideRecyclerAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                EditRideDialogFragment editRideFragment =
-//                        EditRideDialogFragment.newInstance( holder.getAdapterPosition(), key, rider, driver, phone, destination, comments );
-//                editRideFragment.show( ((AppCompatActivity)context).getSupportFragmentManager(), null);
+                Log.d(DEBUG_TAG, String.valueOf(((View) v.getParent().getParent()).getId()));
+
+                // profile = 2131231123
+                // list = -1
+
+                if (((View) v.getParent().getParent()).getId() == -1) {
+                    AcceptRideDialogFragment acceptRideFragment =
+                            AcceptRideDialogFragment.newInstance(holder.getAdapterPosition(), key, rider, driver, phone, destination, comments);
+                    acceptRideFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), null);
+                } else {
+                    EditRideDialogFragment editRideFragment =
+                            EditRideDialogFragment.newInstance(holder.getAdapterPosition(), key, rider, driver, phone, destination, comments);
+                    editRideFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), null);
+                }
             }
         });
     }

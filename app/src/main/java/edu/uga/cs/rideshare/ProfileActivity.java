@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements EditRideDialogFragment.EditRideDialogListener {
 
     private String DEBUG_TAG = "Profile Activty";
 
@@ -96,5 +98,71 @@ public class ProfileActivity extends AppCompatActivity {
                 System.out.println( "ValueEventListener: reading failed: " + databaseError.getMessage() );
             }
         } );
+    }
+
+    public void updateRide(int position, Ride ride, int action) {
+        if (action == EditRideDialogFragment.SAVE) {
+            Log.d(DEBUG_TAG, "Updating ride at: " + position + "(" + ride.getKey() + ")");
+
+            recyclerAdapter.notifyItemChanged(position);
+
+            DatabaseReference ref = database
+                    .getReference()
+                    .child("rides")
+                    .child(ride.getKey());
+
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    dataSnapshot.getRef().setValue(ride).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(DEBUG_TAG, "updated ride at: " + position + "(" + ride.getKey() + ")");
+                            Toast.makeText(getApplicationContext(), "Ride updated for " + ride.getRider(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.d(DEBUG_TAG, "failed to update ride at: " + position + "(" + ride.getKey() + ")");
+                    Toast.makeText(getApplicationContext(), "Failed to update " + ride.getKey(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else if (action == EditRideDialogFragment.DELETE) {
+            Log.d(DEBUG_TAG, "Deleting ride at: " + position + "(" + ride.getKey() + ")");
+
+            ridesList.remove(position);
+
+            recyclerAdapter.notifyItemRemoved(position);
+
+            DatabaseReference ref = database
+                    .getReference()
+                    .child("rides")
+                    .child(ride.getKey());
+
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    dataSnapshot.getRef().removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(DEBUG_TAG, "deleted ride at: " + position + "(" + ride.getKey() + ")");
+                            Toast.makeText(getApplicationContext(), "Ride deleted for " + ride.getRider(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.d(DEBUG_TAG, "failed to delete ride at: " + position + "(" + ride.getKey() + ")");
+                    Toast.makeText(getApplicationContext(), "Failed to delete " + ride.getKey(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

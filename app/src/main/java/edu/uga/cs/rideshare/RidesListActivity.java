@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RidesListActivity extends AppCompatActivity {
+public class RidesListActivity extends AppCompatActivity implements AcceptRideDialogFragment.AcceptRideDialogListener {
 
     public static final String DEBUG_TAG = "RidesListActivity";
 
@@ -40,15 +42,6 @@ public class RidesListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rides_list);
 
         recyclerView = findViewById( R.id.recyclerView );
-
-        FloatingActionButton floatingButton = findViewById(R.id.floatingActionButton);
-        floatingButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                DialogFragment newFragment = new AddJobLeadDialogFragment();
-//                newFragment.show( getSupportFragmentManager(), null);
-            }
-        });
 
         ridesList = new ArrayList<Ride>();
 
@@ -66,7 +59,7 @@ public class RidesListActivity extends AppCompatActivity {
         // and then each time the value at Firebase changes.
         //
         // This listener will be invoked asynchronously, hence no need for an AsyncTask class, as in the previous apps
-        // to maintain job leads.
+        // to maintain rides.
         myRef.addValueEventListener( new ValueEventListener() {
 
             @Override
@@ -101,4 +94,18 @@ public class RidesListActivity extends AppCompatActivity {
         } );
 
     }
+
+    public void acceptRide(int position, Ride ride, int action) {
+        Log.d( DEBUG_TAG, "Accepting ride: " + position + "(" + ride.getRider() + ")" );
+
+        recyclerAdapter.notifyItemChanged( position );
+
+        Log.d(DEBUG_TAG," have to implement how to accept in database");
+//        DatabaseReference ref = database
+//                .getReference()
+//                .child( "rides" )
+//                .child( ride.getKey() );
+
+    }
+
 }

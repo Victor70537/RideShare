@@ -6,23 +6,24 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-public class AcceptRideDialogFragment extends DialogFragment {
-    public static final int ACCEPT = 1;
+public class EditRideDialogFragment extends DialogFragment {
 
-    private TextView riderView;
-    private TextView driverView;
-    private TextView phoneView;
-    private TextView destinationView;
-    private TextView commentsView;
+    public static final int SAVE = 1;
+    public static final int DELETE = 2;
+
+    private EditText riderView;
+    private EditText driverView;
+    private EditText phoneView;
+    private EditText destinationView;
+    private EditText commentsView;
 
     int position;
-
     String key;
     String rider;
     String driver;
@@ -30,12 +31,12 @@ public class AcceptRideDialogFragment extends DialogFragment {
     String destination;
     String comments;
 
-    public interface AcceptRideDialogListener {
-        void acceptRide(int position, Ride ride, int action);
+    public interface EditRideDialogListener {
+        void updateRide(int position, Ride ride, int action);
     }
 
-    public static AcceptRideDialogFragment newInstance(int position, String key, String rider, String driver, String phone, String destination, String comments) {
-        AcceptRideDialogFragment dialog = new AcceptRideDialogFragment();
+    public static EditRideDialogFragment newInstance(int position, String key, String rider, String driver, String phone, String destination, String comments) {
+        EditRideDialogFragment dialog = new EditRideDialogFragment();
 
         Bundle args = new Bundle();
         args.putString("key", key );
@@ -55,20 +56,20 @@ public class AcceptRideDialogFragment extends DialogFragment {
 
         key = getArguments().getString( "key" );
         position = getArguments().getInt( "position" );
-        rider = getArguments().getString( "rider" );
-        driver = getArguments().getString("driver");
+        rider = getArguments().getString("rider");
+        driver = getArguments().getString( "driver" );
         phone = getArguments().getString( "phone" );
         destination = getArguments().getString( "destination" );
         comments = getArguments().getString( "comments" );
 
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View layout = inflater.inflate( R.layout.accept_ride_dialog, getActivity().findViewById( R.id.root ) );
+        final View layout = inflater.inflate( R.layout.edit_ride_dialog, getActivity().findViewById( R.id.root ) );
 
-        riderView = layout.findViewById( R.id.textView1 );
-        driverView = layout.findViewById( R.id.textView2 );
-        phoneView = layout.findViewById( R.id.textView3 );
-        destinationView = layout.findViewById( R.id.textView4 );
-        commentsView = layout.findViewById( R.id.textView5 );
+        riderView = layout.findViewById( R.id.editText1 );
+        driverView = layout.findViewById( R.id.editText2 );
+        phoneView = layout.findViewById( R.id.editText3 );
+        destinationView = layout.findViewById( R.id.editText4 );
+        commentsView = layout.findViewById( R.id.editText5 );
 
         riderView.setText( rider );
         driverView.setText( driver );
@@ -79,9 +80,8 @@ public class AcceptRideDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder( getActivity(), R.style.AlertDialogStyle );
         builder.setView(layout);
 
-        builder.setTitle( "Accept Ride Dialog" );
+        builder.setTitle( "Edit Ride" );
 
-        // The Cancel button handler
         builder.setNegativeButton( android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
@@ -90,24 +90,41 @@ public class AcceptRideDialogFragment extends DialogFragment {
             }
         });
 
-        builder.setPositiveButton( "ACCEPT", new AcceptButtonClickListener() );
+        builder.setPositiveButton( "SAVE", new SaveButtonClickListener() );
+        builder.setNeutralButton( "DELETE", new DeleteButtonClickListener() );
 
         return builder.create();
     }
 
-    private class AcceptButtonClickListener implements DialogInterface.OnClickListener {
+    private class SaveButtonClickListener implements DialogInterface.OnClickListener {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             String rider = riderView.getText().toString();
-            String driver = riderView.getText().toString();
+            String driver = driverView.getText().toString();
             String phone = phoneView.getText().toString();
             String destination = destinationView.getText().toString();
             String comments = commentsView.getText().toString();
             Ride ride = new Ride( rider, driver, phone, destination, comments );
             ride.setKey( key );
 
-            AcceptRideDialogListener listener = (AcceptRideDialogListener) getActivity();
-            listener.acceptRide( position, ride, ACCEPT );
+            EditRideDialogListener listener = (EditRideDialogListener) getActivity();
+            listener.updateRide( position, ride, SAVE );
+
+            dismiss();
+        }
+
+
+    }
+
+    private class DeleteButtonClickListener implements DialogInterface.OnClickListener {
+        @Override
+        public void onClick( DialogInterface dialog, int which ) {
+
+            Ride ride = new Ride( rider, driver, phone, destination, comments );
+            ride.setKey( key );
+
+            EditRideDialogListener listener = (EditRideDialogListener) getActivity();            // add the new job lead
+            listener.updateRide( position, ride, DELETE );
 
             dismiss();
         }
