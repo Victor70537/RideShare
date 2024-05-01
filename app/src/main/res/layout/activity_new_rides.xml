@@ -15,8 +15,8 @@
         android:layout_marginBottom="20dp"
         android:layout_weight="1"
         android:ems="10"
-        android:inputType="text"
-        android:text="Enter Username" />
+        android:hint="Enter Username"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/editTextPhone"
@@ -25,8 +25,8 @@
         android:layout_marginBottom="20dp"
         android:layout_weight="1"
         android:ems="10"
-        android:inputType="phone"
-        android:text="Enter Phone No." />
+        android:hint="Enter Phone No."
+        android:inputType="phone" />
 
     <EditText
         android:id="@+id/editTextTextPostalAddress"
@@ -35,8 +35,8 @@
         android:layout_marginBottom="20dp"
         android:layout_weight="1"
         android:ems="10"
-        android:inputType="textPostalAddress"
-        android:text="Enter Destination" />
+        android:hint="Enter Destination"
+        android:inputType="textPostalAddress" />
 
     <EditText
         android:id="@+id/editTextText1"
@@ -44,8 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ems="10"
-        android:inputType="text"
-        android:text="Enter Comments" />
+        android:hint="Enter Comments"
+        android:inputType="text" />
 
     <Button
         android:id="@+id/UploadRideButton"
