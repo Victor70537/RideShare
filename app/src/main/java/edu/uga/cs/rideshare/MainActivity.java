@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 //import android.util.Log;
 //import android.widget.TextView;
 //import android.widget.Toast;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 //    public static final String TAG = "RideShare";
 //    private FirebaseAuth mAuth;
 
+    private TextView directions;
     private Button logIn;
     private Button signUp;
 
@@ -39,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
         logIn = findViewById( R.id.LogInButton);
         signUp = findViewById( R.id.SignUpButton );
+
+        directions = findViewById(R.id.textView);
+        directions.setText("Welcome to RideShare!\n\nThis app allows you to interact with other users to make transportation efficient and easier for everyone. To get started, click Log In for existing users or Sign Up for free.\n\nSafe travels!\n\n");
 
 
         logIn.setOnClickListener(new View.OnClickListener() {

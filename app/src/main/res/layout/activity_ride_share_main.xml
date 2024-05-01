@@ -26,7 +26,8 @@
         android:gravity="center"
         android:maxWidth="700dp"
         android:padding="10dp"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textAlignment="center" />
 
     <Button
         android:id="@+id/RequestButton"
@@ -60,6 +61,7 @@
         android:id="@+id/Switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:layout_weight="1"
         android:text="Switch" />
 
