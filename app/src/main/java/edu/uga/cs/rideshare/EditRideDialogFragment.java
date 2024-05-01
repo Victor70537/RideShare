@@ -12,6 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class EditRideDialogFragment extends DialogFragment {
 
     public static final int SAVE = 1;
@@ -24,6 +27,7 @@ public class EditRideDialogFragment extends DialogFragment {
     private EditText commentsView;
 
     int position;
+    int userStatus;
     String key;
     String rider;
     String driver;
@@ -35,10 +39,11 @@ public class EditRideDialogFragment extends DialogFragment {
         void updateRide(int position, Ride ride, int action);
     }
 
-    public static EditRideDialogFragment newInstance(int position, String key, String rider, String driver, String phone, String destination, String comments) {
+    public static EditRideDialogFragment newInstance(int position, int userStatus, String key, String rider, String driver, String phone, String destination, String comments) {
         EditRideDialogFragment dialog = new EditRideDialogFragment();
 
         Bundle args = new Bundle();
+        args.putInt("user status", userStatus);
         args.putString("key", key );
         args.putString("rider", rider );
         args.putString("driver", driver);
@@ -54,6 +59,7 @@ public class EditRideDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog( Bundle savedInstanceState ) {
 
+        userStatus = getArguments().getInt("user status");
         key = getArguments().getString( "key" );
         position = getArguments().getInt( "position" );
         rider = getArguments().getString("rider");
@@ -106,6 +112,19 @@ public class EditRideDialogFragment extends DialogFragment {
             String comments = commentsView.getText().toString();
             Ride ride = new Ride( rider, driver, phone, destination, comments );
             ride.setKey( key );
+
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            String userId = user.getUid();
+
+            ride.setRiderId(userId);
+
+            if (userStatus == 1) {
+//                ride.setRider(username);
+                ride.setRiderId(userId);
+            } else if (userStatus == 2) {
+//                ride.setDriver(username);
+                ride.setDriverId(userId);
+            }
 
             EditRideDialogListener listener = (EditRideDialogListener) getActivity();
             listener.updateRide( position, ride, SAVE );

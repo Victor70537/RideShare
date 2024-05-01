@@ -146,6 +146,7 @@ public class RideShareMain extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(view.getContext(), ProfileActivity.class);
+            intent.putExtra("user status", userStatus);
             view.getContext().startActivity( intent );
         }
     }

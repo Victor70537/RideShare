@@ -17,12 +17,14 @@ public class RideRecyclerAdapter extends RecyclerView.Adapter<RideRecyclerAdapte
 
     public static final String DEBUG_TAG = "RideRecyclerAdapter";
 
+    private int userStatus;
     private List<Ride> rideList;
     private Context context;
 
-    public RideRecyclerAdapter(List<Ride> rideList, Context context) {
+    public RideRecyclerAdapter(int userStatus, List<Ride> rideList, Context context) {
         this.rideList = rideList;
         this.context = context;
+        this.userStatus = userStatus;
     }
 
     class RideHolder extends RecyclerView.ViewHolder {
@@ -84,7 +86,7 @@ public class RideRecyclerAdapter extends RecyclerView.Adapter<RideRecyclerAdapte
                     acceptRideFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), null);
                 } else {
                     EditRideDialogFragment editRideFragment =
-                            EditRideDialogFragment.newInstance(holder.getAdapterPosition(), key, rider, driver, phone, destination, comments);
+                            EditRideDialogFragment.newInstance(holder.getAdapterPosition(), userStatus, key, rider, driver, phone, destination, comments);
                     editRideFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), null);
                 }
             }

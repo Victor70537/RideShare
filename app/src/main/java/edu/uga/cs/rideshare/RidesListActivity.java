@@ -48,7 +48,7 @@ public class RidesListActivity extends AppCompatActivity implements AcceptRideDi
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerAdapter = new RideRecyclerAdapter( ridesList, RidesListActivity.this );
+        recyclerAdapter = new RideRecyclerAdapter(1, ridesList, RidesListActivity.this );
         recyclerView.setAdapter( recyclerAdapter );
 
         database = FirebaseDatabase.getInstance();

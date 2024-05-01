@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -34,6 +35,8 @@ public class ProfileActivity extends AppCompatActivity implements EditRideDialog
     private RecyclerView recyclerView;
     private RideRecyclerAdapter recyclerAdapter;
 
+    private int userStatus;
+
     private List<Ride> ridesList;
     private FirebaseDatabase database;
 
@@ -47,11 +50,14 @@ public class ProfileActivity extends AppCompatActivity implements EditRideDialog
 
         ridesList = new ArrayList<Ride>();
 
+        Intent intent = getIntent();
+        userStatus = intent.getIntExtra("user status", 1);
+
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerAdapter = new RideRecyclerAdapter( ridesList, ProfileActivity.this );
+        recyclerAdapter = new RideRecyclerAdapter( userStatus, ridesList, ProfileActivity.this );
         recyclerView.setAdapter( recyclerAdapter );
 
 
@@ -80,7 +86,7 @@ public class ProfileActivity extends AppCompatActivity implements EditRideDialog
             @Override
             public void onDataChange( @NonNull DataSnapshot snapshot ) {
                 // Once we have a DataSnapshot object, we need to iterate over the elements and place them on our job lead list.
-                ridesList.clear(); // clear the current content; this is inefficient!
+//                ridesList.clear(); // clear the current content; this is inefficient!
                 for( DataSnapshot postSnapshot: snapshot.getChildren() ) {
                     Ride ride = postSnapshot.getValue(Ride.class);
                     ride.setKey( postSnapshot.getKey() );
@@ -104,7 +110,7 @@ public class ProfileActivity extends AppCompatActivity implements EditRideDialog
             @Override
             public void onDataChange( @NonNull DataSnapshot snapshot ) {
                 // Once we have a DataSnapshot object, we need to iterate over the elements and place them on our job lead list.
-                ridesList.clear(); // clear the current content; this is inefficient!
+//                ridesList.clear(); // clear the current content; this is inefficient!
                 for( DataSnapshot postSnapshot: snapshot.getChildren() ) {
                     Ride ride = postSnapshot.getValue(Ride.class);
                     ride.setKey( postSnapshot.getKey() );
@@ -130,10 +136,12 @@ public class ProfileActivity extends AppCompatActivity implements EditRideDialog
 
             recyclerAdapter.notifyItemChanged(position);
 
-            DatabaseReference ref = database
-                    .getReference()
-                    .child("rides")
-                    .child(ride.getKey());
+//            DatabaseReference ref = database
+//                    .getReference()
+//                    .child("rides")
+//                    .child(ride.getKey());
+
+            DatabaseReference ref = database.getReference("rides").child(ride.getKey());
 
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -162,10 +170,12 @@ public class ProfileActivity extends AppCompatActivity implements EditRideDialog
 
             recyclerAdapter.notifyItemRemoved(position);
 
-            DatabaseReference ref = database
-                    .getReference()
-                    .child("rides")
-                    .child(ride.getKey());
+//            DatabaseReference ref = database
+//                    .getReference()
+//                    .child("rides")
+//                    .child(ride.getKey());
+
+            DatabaseReference ref = database.getReference("rides").child(ride.getKey());
 
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
