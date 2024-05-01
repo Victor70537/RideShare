@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -59,6 +62,10 @@ public class NewRideActivity extends AppCompatActivity {
                 ride.setDriver(username);
             }
 
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            String userId = user.getUid();
+
+            ride.setUserId(userId);
             ride.setPhone(phone);
             ride.setDestination(destination);
             ride.setComments(comments);

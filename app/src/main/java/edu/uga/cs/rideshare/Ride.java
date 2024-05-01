@@ -7,6 +7,7 @@ package edu.uga.cs.rideshare;
  */
 public class Ride {
     private String key;
+    private String userId;
     private String rider;
     private String driver;
     private String phone;
@@ -16,6 +17,7 @@ public class Ride {
     public Ride()
     {
         this.key = null;
+        this.userId = null;
         this.rider = null;
         this.driver = null;
         this.phone = null;
@@ -25,6 +27,7 @@ public class Ride {
 
     public Ride(String rider, String driver, String phone, String destination, String comments ) {
         this.key = null;
+        this.userId = null;
         this.rider = rider;
         this.driver = driver;
         this.phone = phone;
@@ -38,6 +41,14 @@ public class Ride {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getRider() {

@@ -2,6 +2,8 @@ package edu.uga.cs.rideshare;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +29,9 @@ public class ProfileActivity extends AppCompatActivity {
     private LinearLayout parentLayout;
     private TextView creditView;
 
+    private RecyclerView recyclerView;
+    private RideRecyclerAdapter recyclerAdapter;
+
     private List<Ride> ridesList;
     private FirebaseDatabase database;
 
@@ -35,17 +40,32 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+
+        recyclerView = findViewById( R.id.recyclerView );
+
         ridesList = new ArrayList<Ride>();
+
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        recyclerAdapter = new RideRecyclerAdapter( ridesList, ProfileActivity.this );
+        recyclerView.setAdapter( recyclerAdapter );
+
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userId = user.getUid();
 
+        Log.d("User Id", userId);
+
         database = FirebaseDatabase.getInstance();
 
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("rides");
+        DatabaseReference myRef = database.getReference("rides");
         Query query = myRef.orderByChild("userId").equalTo(userId);
 
-//        DatabaseReference myRef = database.getReference("rides").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+
+
 
         // Set up a listener (event handler) to receive a value for the database reference.
         // This type of listener is called by Firebase once by immediately executing its onDataChange method
@@ -67,15 +87,7 @@ public class ProfileActivity extends AppCompatActivity {
                     Log.d( DEBUG_TAG, "ValueEventListener: key: " + postSnapshot.getKey() );
                 }
 
-//                Log.d( DEBUG_TAG, "ValueEventListener: notifying recyclerAdapter" );
-
-                parentLayout = findViewById( R.id.parentLayout );
-
-                for (int i = 0; i < ridesList.size(); i++) {
-                    TextView textView = new TextView(getApplicationContext());
-                    textView.setText(ridesList.get(i).toString());
-                    parentLayout.addView(textView);
-                }
+                recyclerAdapter.notifyDataSetChanged();
 
             }
 
