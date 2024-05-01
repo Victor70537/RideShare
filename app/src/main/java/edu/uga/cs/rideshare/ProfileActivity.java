@@ -63,9 +63,9 @@ public class ProfileActivity extends AppCompatActivity implements EditRideDialog
         database = FirebaseDatabase.getInstance();
 
         DatabaseReference myRef = database.getReference("rides");
-        Query query = myRef.orderByChild("userId").equalTo(userId);
+        Query riderQuery = myRef.orderByChild("riderId").equalTo(userId);
 
-
+        Query driverQuery = myRef.orderByChild("driverId").equalTo(userId);
 
 
 
@@ -75,7 +75,31 @@ public class ProfileActivity extends AppCompatActivity implements EditRideDialog
         //
         // This listener will be invoked asynchronously, hence no need for an AsyncTask class, as in the previous apps
         // to maintain job leads.
-        query.addValueEventListener( new ValueEventListener() {
+        riderQuery.addValueEventListener( new ValueEventListener() {
+
+            @Override
+            public void onDataChange( @NonNull DataSnapshot snapshot ) {
+                // Once we have a DataSnapshot object, we need to iterate over the elements and place them on our job lead list.
+                ridesList.clear(); // clear the current content; this is inefficient!
+                for( DataSnapshot postSnapshot: snapshot.getChildren() ) {
+                    Ride ride = postSnapshot.getValue(Ride.class);
+                    ride.setKey( postSnapshot.getKey() );
+                    ridesList.add( ride );
+                    Log.d( DEBUG_TAG, "ValueEventListener: added: " + ride );
+                    Log.d( DEBUG_TAG, "ValueEventListener: key: " + postSnapshot.getKey() );
+                }
+
+                recyclerAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled( @NonNull DatabaseError databaseError ) {
+                System.out.println( "ValueEventListener: reading failed: " + databaseError.getMessage() );
+            }
+        } );
+
+        driverQuery.addValueEventListener( new ValueEventListener() {
 
             @Override
             public void onDataChange( @NonNull DataSnapshot snapshot ) {

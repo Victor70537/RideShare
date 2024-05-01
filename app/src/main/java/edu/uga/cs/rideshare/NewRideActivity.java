@@ -56,16 +56,18 @@ public class NewRideActivity extends AppCompatActivity {
             String comments = commentsView.getText().toString();
             final Ride ride = new Ride();
 
-            if (userStatus == 1) {
-                ride.setRider(username);
-            } else if (userStatus == 2) {
-                ride.setDriver(username);
-            }
-
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             String userId = user.getUid();
 
-            ride.setUserId(userId);
+
+            if (userStatus == 1) {
+                ride.setRider(username);
+                ride.setRiderId(userId);
+            } else if (userStatus == 2) {
+                ride.setDriver(username);
+                ride.setDriverId(userId);
+            }
+
             ride.setPhone(phone);
             ride.setDestination(destination);
             ride.setComments(comments);

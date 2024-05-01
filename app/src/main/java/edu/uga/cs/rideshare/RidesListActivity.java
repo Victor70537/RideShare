@@ -101,6 +101,10 @@ public class RidesListActivity extends AppCompatActivity implements AcceptRideDi
         recyclerAdapter.notifyItemChanged( position );
 
         Log.d(DEBUG_TAG," have to implement how to accept in database");
+
+
+
+
 //        DatabaseReference ref = database
 //                .getReference()
 //                .child( "rides" )
