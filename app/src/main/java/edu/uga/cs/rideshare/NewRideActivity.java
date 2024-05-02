@@ -18,6 +18,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * This class represents when the user wants to create a new
+ * ride offer or request as a driver or rider, respectfully.
+ */
 public class NewRideActivity extends AppCompatActivity {
 
     private Button UploadRideButton;
@@ -79,11 +83,6 @@ public class NewRideActivity extends AppCompatActivity {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference("rides");
 
-            // First, a call to push() appends a new node to the existing list (one is created
-            // if this is done for the first time).  Then, we set the value in the newly created
-            // list node to store the new job lead.
-            // This listener will be invoked asynchronously, as no need for an AsyncTask, as in
-            // the previous apps to maintain job leads.
             myRef.push().setValue( ride )
                     .addOnSuccessListener( new OnSuccessListener<Void>() {
                         @Override

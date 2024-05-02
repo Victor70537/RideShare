@@ -20,6 +20,10 @@ import androidx.fragment.app.DialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * This class delivers the dialog format for a ride when attempting to
+ * accept the ride either as a driver or rider.
+ */
 public class AcceptRideDialogFragment extends DialogFragment {
     public static final int ACCEPT = 1;
 
@@ -104,7 +108,6 @@ public class AcceptRideDialogFragment extends DialogFragment {
 
         builder.setTitle( "Accept Ride Dialog" );
 
-        // The Cancel button handler
         builder.setNegativeButton( android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
@@ -166,10 +169,6 @@ public class AcceptRideDialogFragment extends DialogFragment {
                             Toast.LENGTH_SHORT).show();
                 }
             }
-
-
-
-
 
             AcceptRideDialogListener listener = (AcceptRideDialogListener) getActivity();
             listener.acceptRide( position, ride, ACCEPT );

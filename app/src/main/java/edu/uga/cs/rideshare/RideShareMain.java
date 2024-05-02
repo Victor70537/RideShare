@@ -15,6 +15,10 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * This class is the page with the directions and username as well as four buttons:
+ * create a ride, view available rides, view profile, and logout.
+ */
 public class RideShareMain extends AppCompatActivity {
 
     private TextView Title;

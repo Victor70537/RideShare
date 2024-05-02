@@ -19,6 +19,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * This class is the Log In and Sign Up page for the user after
+ * the user click Log In or Sign In.
+ */
 public class LogInPage extends AppCompatActivity {
 
     private Button button;

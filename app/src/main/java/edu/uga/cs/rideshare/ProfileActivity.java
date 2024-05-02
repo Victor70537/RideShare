@@ -25,6 +25,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is the page where all the ride offers and request
+ * from the user that is logged in is shown.
+ */
 public class ProfileActivity extends AppCompatActivity implements EditRideDialogFragment.EditRideDialogListener {
 
     private String DEBUG_TAG = "Profile Activty";
@@ -74,18 +78,10 @@ public class ProfileActivity extends AppCompatActivity implements EditRideDialog
         Query driverQuery = myRef.orderByChild("driverId").equalTo(userId);
 
 
-
-        // Set up a listener (event handler) to receive a value for the database reference.
-        // This type of listener is called by Firebase once by immediately executing its onDataChange method
-        // and then each time the value at Firebase changes.
-        //
-        // This listener will be invoked asynchronously, hence no need for an AsyncTask class, as in the previous apps
-        // to maintain job leads.
         riderQuery.addValueEventListener( new ValueEventListener() {
 
             @Override
             public void onDataChange( @NonNull DataSnapshot snapshot ) {
-                // Once we have a DataSnapshot object, we need to iterate over the elements and place them on our job lead list.
 //                ridesList.clear(); // clear the current content; this is inefficient!
                 for( DataSnapshot postSnapshot: snapshot.getChildren() ) {
                     Ride ride = postSnapshot.getValue(Ride.class);
@@ -109,7 +105,6 @@ public class ProfileActivity extends AppCompatActivity implements EditRideDialog
 
             @Override
             public void onDataChange( @NonNull DataSnapshot snapshot ) {
-                // Once we have a DataSnapshot object, we need to iterate over the elements and place them on our job lead list.
 //                ridesList.clear(); // clear the current content; this is inefficient!
                 for( DataSnapshot postSnapshot: snapshot.getChildren() ) {
                     Ride ride = postSnapshot.getValue(Ride.class);

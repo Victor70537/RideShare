@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+/**
+ * This class allows Accept Dialog Fragment or the Edit Dialog Fragment to appear.
+ * It uses context, the rides, and the userStatus to create the specific fragment.
+ */
 public class RideRecyclerAdapter extends RecyclerView.Adapter<RideRecyclerAdapter.RideHolder> {
 
     public static final String DEBUG_TAG = "RideRecyclerAdapter";

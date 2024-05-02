@@ -27,6 +27,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class shows all the available rides in a list from the database.
+ */
 public class RidesListActivity extends AppCompatActivity implements AcceptRideDialogFragment.AcceptRideDialogListener {
 
     public static final String DEBUG_TAG = "RidesListActivity";
@@ -61,17 +64,12 @@ public class RidesListActivity extends AppCompatActivity implements AcceptRideDi
         database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("rides");
 
-        // Set up a listener (event handler) to receive a value for the database reference.
-        // This type of listener is called by Firebase once by immediately executing its onDataChange method
-        // and then each time the value at Firebase changes.
-        //
-        // This listener will be invoked asynchronously, hence no need for an AsyncTask class, as in the previous apps
-        // to maintain rides.
+
         myRef.addValueEventListener( new ValueEventListener() {
 
             @Override
             public void onDataChange( @NonNull DataSnapshot snapshot ) {
-                // Once we have a DataSnapshot object, we need to iterate over the elements and place them on our job lead list.
+                // Once we have a DataSnapshot object, we need to iterate over the elements and place them on our rides list.
                 ridesList.clear(); // clear the current content; this is inefficient!
                 for( DataSnapshot postSnapshot: snapshot.getChildren() ) {
                     Ride ride = postSnapshot.getValue(Ride.class);

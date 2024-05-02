@@ -23,6 +23,11 @@ import android.widget.TextView;
 //import com.google.firebase.database.FirebaseDatabase;
 //import com.google.firebase.database.ValueEventListener;
 
+/**
+ * This class is the splash screen of the whole app. It prompts the
+ * user with a simple description and displays two buttions: Log In
+ * and Sign Up.
+ */
 public class MainActivity extends AppCompatActivity {
 
 //    public static final String TAG = "RideShare";
@@ -120,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
 //                Log.d( TAG, "Failed to read value.", error.toException() );
 //            }
 //        });
-
 
 
     }

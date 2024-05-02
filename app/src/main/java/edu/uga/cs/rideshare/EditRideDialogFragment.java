@@ -15,6 +15,10 @@ import androidx.fragment.app.DialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * This class allows a dialog to edit rides on the user's profile page
+ * to change rider or driver, phone, destination, or comments on the rides.
+ */
 public class EditRideDialogFragment extends DialogFragment {
 
     public static final int SAVE = 1;
@@ -142,7 +146,7 @@ public class EditRideDialogFragment extends DialogFragment {
             Ride ride = new Ride( rider, driver, phone, destination, comments );
             ride.setKey( key );
 
-            EditRideDialogListener listener = (EditRideDialogListener) getActivity();            // add the new job lead
+            EditRideDialogListener listener = (EditRideDialogListener) getActivity();
             listener.updateRide( position, ride, DELETE );
 
             dismiss();
