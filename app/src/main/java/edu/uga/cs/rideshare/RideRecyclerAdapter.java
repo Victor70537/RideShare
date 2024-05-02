@@ -65,6 +65,8 @@ public class RideRecyclerAdapter extends RecyclerView.Adapter<RideRecyclerAdapte
         String phone = ride.getPhone();
         String destination = ride.getDestination();
         String comments = ride.getComments();
+        String riderUserId = ride.getRiderId();
+        String driverUserId = ride.getDriverId();
 
         holder.rider.setText( ride.getRider());
         holder.driver.setText(ride.getDriver());
@@ -82,7 +84,7 @@ public class RideRecyclerAdapter extends RecyclerView.Adapter<RideRecyclerAdapte
 
                 if (((View) v.getParent().getParent()).getId() == -1) {
                     AcceptRideDialogFragment acceptRideFragment =
-                            AcceptRideDialogFragment.newInstance(holder.getAdapterPosition(), key, rider, driver, phone, destination, comments);
+                            AcceptRideDialogFragment.newInstance(holder.getAdapterPosition(), userStatus, key, rider, driver, phone, destination, comments, riderUserId, driverUserId);
                     acceptRideFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), null);
                 } else {
                     EditRideDialogFragment editRideFragment =

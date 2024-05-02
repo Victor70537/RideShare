@@ -59,7 +59,7 @@ public class Ride {
     }
 
     public void setDriverId(String driverId) {
-        this.riderId = driverId;
+        this.driverId = driverId;
     }
 
     public String getRider() {

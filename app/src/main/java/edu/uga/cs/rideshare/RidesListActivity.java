@@ -8,6 +8,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +35,8 @@ public class RidesListActivity extends AppCompatActivity implements AcceptRideDi
     private RideRecyclerAdapter recyclerAdapter;
     private List<Ride> ridesList;
 
+    private int userStatus;
+
     private FirebaseDatabase database;
 
     @Override
@@ -45,10 +48,14 @@ public class RidesListActivity extends AppCompatActivity implements AcceptRideDi
 
         ridesList = new ArrayList<Ride>();
 
+        Intent intent = getIntent();
+        userStatus = intent.getIntExtra("user status", userStatus);
+
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerAdapter = new RideRecyclerAdapter(1, ridesList, RidesListActivity.this );
+        recyclerAdapter = new RideRecyclerAdapter(userStatus, ridesList, RidesListActivity.this );
         recyclerView.setAdapter( recyclerAdapter );
 
         database = FirebaseDatabase.getInstance();
@@ -100,9 +107,30 @@ public class RidesListActivity extends AppCompatActivity implements AcceptRideDi
 
         recyclerAdapter.notifyItemChanged( position );
 
-        Log.d(DEBUG_TAG," have to implement how to accept in database");
+//        Log.d(DEBUG_TAG," have to implement how to accept in database");
 
+        DatabaseReference ref = database.getReference("rides").child(ride.getKey());
 
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dataSnapshot.getRef().setValue(ride).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(DEBUG_TAG, "updated ride at: " + position + "(" + ride.getKey() + ")");
+                        Toast.makeText(getApplicationContext(), "Ride updated for " + ride.getRider(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(DEBUG_TAG, "failed to update ride at: " + position + "(" + ride.getKey() + ")");
+                Toast.makeText(getApplicationContext(), "Failed to update " + ride.getKey(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
 //        DatabaseReference ref = database

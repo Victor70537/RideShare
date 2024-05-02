@@ -64,6 +64,9 @@ public class NewRideActivity extends AppCompatActivity {
                 ride.setRider(username);
                 ride.setRiderId(userId);
             } else if (userStatus == 2) {
+
+                Log.d("NewRideActivity", "User is a driver");
+
                 ride.setDriver(username);
                 ride.setDriverId(userId);
             }
